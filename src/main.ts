@@ -6,6 +6,7 @@ import { PagamentoRepository } from './repositories/payment.repository.js';
 import { WebhookService } from './services/json_maker.service.js';
 import type sql from 'mssql';
 import { CnpjRepository } from './repositories/cnpj.repository.js';
+import { log } from 'console';
 
 dotenv.config();
 
@@ -64,7 +65,8 @@ async function processarIntegracao(): Promise<number> {
         let mensagemErro = 'Erro interno inesperado';
 
         if (axios.isAxiosError(err)) {
-            mensagemErro = err.response?.data ? JSON.stringify(err.response.data) : err.message;
+            const rawData = err.response?.data ? JSON.stringify(err.response.data) : err.message;
+            mensagemErro = rawData.substring(0, 200);
             console.error(`❌ Webhook Error:`, mensagemErro);
         } else if (err instanceof Error) {
             mensagemErro = err.message;

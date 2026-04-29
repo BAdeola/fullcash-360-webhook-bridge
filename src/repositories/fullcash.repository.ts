@@ -30,7 +30,7 @@ export class FullcashRepository {
                 .query<ComandaRecord>(`
                     SELECT comanda 
                     FROM cadven 
-                    WHERE sequencia_dia = @seqParam
+                    WHERE sequencia_dia = @seqParam AND situac = 'EMITIDA' and valtot > 0
                 `);
 
             return result.recordset;

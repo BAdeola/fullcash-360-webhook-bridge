@@ -29,7 +29,7 @@ export class WebhookService {
                 const pagamentosDaComanda = todosPagamentosMap.get(comanda) ?? [];
 
                 return {
-                    NumeroCupom: `COM-${comanda}`,
+                    NumeroCupom: `COM-${comanda}-${new Date().getTime()}`,
                     CNPJEmitente: cnpjFinal,
                     MeioPagamento: pagamentosDaComanda.map(pgto => ({
                         FormaPagamento: pgto.nompgt,
@@ -38,7 +38,8 @@ export class WebhookService {
                     })),
                     Data: new Date().toISOString()
                 };
-            });
+            })
+            .filter(v => v !== null);
 
             return {
                 NomeSistema: "Integrador_COBOL_Node",
